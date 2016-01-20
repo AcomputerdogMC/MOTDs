@@ -1,0 +1,15 @@
+name: Motd
+version: 1.0.0
+description: Displays messages on player login
+author: acomputerdog
+main: net.acomputerdog.motd.PluginMotd
+
+commands:
+  motd:
+    description: Display all motds
+    permission: motd.command
+
+permissions:
+  motd.command:
+    description: Allow use of /motd
+    default: true
