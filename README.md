@@ -9,11 +9,13 @@ MOTDs are added with the following process:
 2.Name the file as something ending in ".motd".  The name does not matter, so name it whatever you want.   
 3.Structure the contents as follows:   
 ```
-    //MOTD for all players     //any comments                    (can be anywhere)
-    name:: global              //name of MOTD                    (can be anywhere)
-    perm:: motds.global        //permission node required to see (can be anywhere)
-    Welcome to AcomputerdogMC! //actual contents                 (everything not a comment, name, or permission)
+    //MOTD for all players     //any comments                       (can be anywhere)
+    name:: global              //name of MOTD, optional             (can be anywhere)
+    perm:: motds.global        //permission node required, optional (can be anywhere)
+    Welcome to AcomputerdogMC! //actual contents                    (everything not a comment, name, or permission)
 ```
 4.Any player with the permission "motds.global" will see the message "Welcome to AcomputerdogMC!".   
+
+If a name is not specified, the name will be the filename without ".motd".  If a permission is not specified, the permission will be "motds.<name>".
 
 Didn't I say it was overengineered? ;)
