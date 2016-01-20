@@ -1,5 +1,6 @@
 package net.acomputerdog.motd;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
@@ -31,6 +32,8 @@ public class PluginMotd extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
+        motdDir = null;
+        motds = null;
         getLogger().info("Shutdown complete.");
     }
 
@@ -38,10 +41,15 @@ public class PluginMotd extends JavaPlugin implements Listener {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("motd")) {
             if (sender.hasPermission("motd.command")) {
+                sender.sendMessage(ChatColor.AQUA + "MOTDs for " + sender.getName() + ": ");
                 motds.sendMotdsFor(sender);
+            } else {
+                sender.sendMessage(ChatColor.RED + "You do not have permission!");
             }
+        } else {
+            sender.sendMessage(ChatColor.RED + "Unknown command!");
         }
-        return false;
+        return true;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

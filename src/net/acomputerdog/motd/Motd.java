@@ -1,24 +1,22 @@
 package net.acomputerdog.motd;
 
-import java.io.File;
-import java.util.Arrays;
-
 public class Motd {
     private final String name;
     private final String message;
-    private final String[] permissions;
-    public Motd(String name, String message,String... permissions) {
+    private final String permission;
+
+    public Motd(String name, String message, String permissions) {
         this.name = name;
         this.message = message;
-        this.permissions = permissions;
+        this.permission = permissions;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public String[] getPermissions() {
-        return permissions;
+    public String getPermission() {
+        return permission;
     }
 
     public String getName() {
@@ -32,7 +30,7 @@ public class Motd {
 
         Motd motd = (Motd) o;
 
-        return name.equals(motd.name) && message.equals(motd.message) && Arrays.equals(permissions, motd.permissions);
+        return name.equals(motd.name) && message.equals(motd.message) && permission.equals(motd.permission);
 
     }
 
@@ -40,7 +38,7 @@ public class Motd {
     public int hashCode() {
         int result = name.hashCode();
         result = 31 * result + message.hashCode();
-        result = 31 * result + Arrays.hashCode(permissions);
+        result = 31 * result + permission.hashCode();
         return result;
     }
 
