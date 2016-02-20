@@ -41,7 +41,7 @@ public class PluginMotd extends JavaPlugin implements Listener {
             case "motd":
                 onCmdMotd(sender);
                 break;
-            case "reload":
+            case "reloadmotd":
                 onCmdReload(sender);
             default:
                 sender.sendMessage(ChatColor.RED + "Unknown command!");
