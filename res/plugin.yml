@@ -1,5 +1,5 @@
 name: Motd
-version: 2.0.0
+version: 2.1.0
 description: Displays messages on player login
 author: acomputerdog
 main: net.acomputerdog.motd.PluginMotd
@@ -8,8 +8,15 @@ commands:
   motd:
     description: Display all motds
     permission: motd.command
+  reloadmotd:
+    description: Reload the plugin (and MOTDs)
+    permission: motd.reload
+    aliases: [motdreload, reloadmotds, motdsreload]
 
 permissions:
   motd.command:
     description: Allow use of /motd
     default: true
+  motd.reload:
+    description: Allow use of /reloadmotd
+    default: op
