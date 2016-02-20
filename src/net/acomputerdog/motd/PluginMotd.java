@@ -15,6 +15,9 @@ public class PluginMotd extends JavaPlugin implements Listener {
     private File motdDir;
     private MotdList motds;
 
+    //don't reset in onEnable or onDisable
+    private boolean reloading = false;
+
     @Override
     public void onEnable() {
         motdDir = new File(getDataFolder(), "/motds/");
@@ -25,7 +28,9 @@ public class PluginMotd extends JavaPlugin implements Listener {
         motds = new MotdList(this);
         motds.load(motdDir);
 
-        getServer().getPluginManager().registerEvents(this, this);
+        if (!reloading) { //don't register for events twice
+            getServer().getPluginManager().registerEvents(this, this);
+        }
     }
 
     @Override
@@ -69,8 +74,10 @@ public class PluginMotd extends JavaPlugin implements Listener {
     private void onCmdReload(CommandSender sender) {
         if (sender.hasPermission("motd.reload")) {
             getLogger().info("Reloading.");
+            reloading = true;
             onDisable();
             onEnable();
+            reloading = false;
             sender.sendMessage(ChatColor.AQUA + "Reload complete.");
         } else {
             sender.sendMessage(ChatColor.RED + "You do not have permission!");
