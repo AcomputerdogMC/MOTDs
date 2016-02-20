@@ -26,28 +26,26 @@ public class PluginMotd extends JavaPlugin implements Listener {
         motds.load(motdDir);
 
         getServer().getPluginManager().registerEvents(this, this);
-
-        getLogger().info("Startup complete.");
     }
 
     @Override
     public void onDisable() {
         motdDir = null;
         motds = null;
-        getLogger().info("Shutdown complete.");
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("motd")) {
-            if (sender.hasPermission("motd.command")) {
-                sender.sendMessage(ChatColor.AQUA + "MOTDs for " + sender.getName() + ": ");
-                motds.sendMotdsFor(sender);
-            } else {
-                sender.sendMessage(ChatColor.RED + "You do not have permission!");
-            }
-        } else {
-            sender.sendMessage(ChatColor.RED + "Unknown command!");
+        String cmd = command.getName().toLowerCase();
+        switch (cmd) {
+            case "motd":
+                onCmdMotd(sender);
+                break;
+            case "reload":
+                onCmdReload(sender);
+            default:
+                sender.sendMessage(ChatColor.RED + "Unknown command!");
+                break;
         }
         return true;
     }
@@ -56,5 +54,25 @@ public class PluginMotd extends JavaPlugin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         //todo threads?
         motds.sendMotdsFor(e.getPlayer());
+    }
+
+    private void onCmdMotd(CommandSender sender) {
+        if (sender.hasPermission("motd.command")) {
+            sender.sendMessage(ChatColor.AQUA + "MOTDs for " + sender.getName() + ": ");
+            motds.sendMotdsFor(sender);
+        } else {
+            sender.sendMessage(ChatColor.RED + "You do not have permission!");
+        }
+    }
+
+    private void onCmdReload(CommandSender sender) {
+        if (sender.hasPermission("motd.reload")) {
+            getLogger().info("Reloading.");
+            onDisable();
+            onEnable();
+            sender.sendMessage(ChatColor.AQUA + "Reload complete.");
+        } else {
+            sender.sendMessage(ChatColor.RED + "You do not have permission!");
+        }
     }
 }
