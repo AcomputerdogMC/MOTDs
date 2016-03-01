@@ -20,6 +20,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="java" level="project" />
+    <orderEntry type="library" name="Spigot-1.9" level="application" />
   </component>
 </module>
