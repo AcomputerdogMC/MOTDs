@@ -21,7 +21,7 @@ public class MotdList {
         List<Motd> motds = new LinkedList<>();
         for (Motd motd : motdList) {
             String perm = motd.getPermission();
-            if (sender.hasPermission(perm)) {
+            if (perm == null || sender.hasPermission(perm)) {
                 motds.add(motd);
             }
         }
@@ -29,12 +29,17 @@ public class MotdList {
     }
 
     public void sendMotdsFor(CommandSender sender) {
+        for (Motd motd : getMotdsFor(sender)) {
+            sender.sendMessage(motd.getMessage());
+        }
+        /*
         for (Motd motd : motdList) {
             String perm = motd.getPermission();
             if (sender.hasPermission(perm)) {
                 sender.sendMessage(motd.getMessage());
             }
         }
+        */
     }
 
     public void load(File motdDir) {
@@ -44,27 +49,22 @@ public class MotdList {
                 for (File f : files) {
                     if (f.getName().endsWith(".motd")) {
                         try {
-                            String name = f.getName().substring(0, f.getName().length() - 5);
-                            String permission = "motds." + name;
+                            String permission = null;
                             StringBuilder contents = new StringBuilder();
                             BufferedReader reader = new BufferedReader(new FileReader(f));
                             Object[] lines = reader.lines().toArray();
                             for (Object obj : lines) {
                                 String line = (String)obj;
-                                if (!line.startsWith("//")) {
-                                    if (line.startsWith("perm:: ")) {
-                                        permission = line.substring(7);
-                                    } else if (line.startsWith("name:: ")) {
-                                        name = line.substring(7);
-                                    } else {
-                                        contents.append(line);
-                                        contents.append('\n');
-                                    }
+                                if (line.startsWith("$perm=")) {
+                                    permission = line.substring(6);
+                                } else {
+                                    contents.append(line);
+                                    contents.append('\n');
                                 }
                             }
                             reader.close();
 
-                            Motd motd = new Motd(name, contents.toString(), permission);
+                            Motd motd = new Motd(contents.toString(), permission);
                             motdList.add(motd);
                         } catch (Exception e) {
                             plugin.getLogger().warning("Exception reading MOTD: " + f.getName());

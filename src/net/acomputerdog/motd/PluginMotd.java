@@ -20,7 +20,7 @@ public class PluginMotd extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        motdDir = new File(getDataFolder(), "/motds/");
+        motdDir = getDataFolder();
         if (!(motdDir.exists() || motdDir.mkdirs())) {
             getLogger().warning("Unable to create MOTD directory!");
         }
