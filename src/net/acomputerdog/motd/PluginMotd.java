@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,9 +15,6 @@ import java.io.File;
 public class PluginMotd extends JavaPlugin implements Listener {
     private File motdDir;
     private MotdList motds;
-
-    //don't reset in onEnable or onDisable
-    private boolean reloading = false;
 
     @Override
     public void onEnable() {
@@ -28,15 +26,14 @@ public class PluginMotd extends JavaPlugin implements Listener {
         motds = new MotdList(this);
         motds.load(motdDir);
 
-        if (!reloading) { //don't register for events twice
-            getServer().getPluginManager().registerEvents(this, this);
-        }
+        getServer().getPluginManager().registerEvents(this, this);
     }
 
     @Override
     public void onDisable() {
         motdDir = null;
         motds = null;
+        HandlerList.unregisterAll((JavaPlugin) this);
     }
 
     @Override
@@ -73,11 +70,9 @@ public class PluginMotd extends JavaPlugin implements Listener {
 
     private void onCmdReload(CommandSender sender) {
         if (sender.hasPermission("motd.reload")) {
-            getLogger().info("Reloading.");
-            reloading = true;
             onDisable();
             onEnable();
-            reloading = false;
+            getLogger().info("Reloaded.");
             sender.sendMessage(ChatColor.AQUA + "Reload complete.");
         } else {
             sender.sendMessage(ChatColor.RED + "You do not have permission!");
