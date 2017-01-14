@@ -1,5 +1,5 @@
-# Motds - A (very over-engineered) bukkit plugin to display MOTDs
-Like the description says, Motds is a way-too-complicated plugin for display MOTDs to players.  It supports many nice features, however, like multiple motds, permission-filtered motds, and multiline messages.
+# Motds - A simple bukkit plugin to display MOTDs
+Like the description says, Motds is a simple plugin for display MOTDs to players.  It supports many nice features, however, like multiple motds, permission-filtered motds, and multiline messages.
 
 The command /motd can be used to replay MOTDs displayed at login, if the user has permission "motd.command".
 
