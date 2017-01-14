@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out</output-path>
     <root id="archive" name="Motd.jar">
       <element id="module-output" name="Motd" />
+      <element id="file-copy" path="$PROJECT_DIR$/out/Motd.jar" />
     </root>
   </artifact>
 </component>
