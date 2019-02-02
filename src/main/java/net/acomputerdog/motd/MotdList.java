@@ -54,7 +54,7 @@ public class MotdList {
                             BufferedReader reader = new BufferedReader(new FileReader(f));
                             Object[] lines = reader.lines().toArray();
                             for (Object obj : lines) {
-                                String line = (String)obj;
+                                String line = (String) obj;
                                 if (line.startsWith("$perm=")) {
                                     permission = line.substring(6);
                                 } else {

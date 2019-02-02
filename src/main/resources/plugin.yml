@@ -1,7 +1,8 @@
 name: Motd
-version: 3.0.1
+version: 3.1.0
 description: Displays messages on player login
 author: acomputerdog
+website: https://github.com/AcomputerdogMC/Motds
 main: net.acomputerdog.motd.PluginMotd
 
 commands:
