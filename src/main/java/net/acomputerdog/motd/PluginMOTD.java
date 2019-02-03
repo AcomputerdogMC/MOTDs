@@ -15,7 +15,7 @@ import java.io.File;
 /**
  * Plugin main class
  */
-public class PluginMotd extends JavaPlugin implements Listener {
+public class PluginMOTD extends JavaPlugin implements Listener {
 
     /**
      * The directory from which to load MOTDs

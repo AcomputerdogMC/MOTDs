@@ -1,14 +1,15 @@
 name: Motd
-version: 3.1.0
+version: ${version}
 description: Displays messages on player login
 author: acomputerdog
 website: https://github.com/AcomputerdogMC/Motds
-main: net.acomputerdog.motd.PluginMotd
+main: net.acomputerdog.motd.PluginMOTD
 
 commands:
   motd:
     description: Display all motds
     permission: motd.command
+    aliases: [motds, showmotd, showmotds]
   reloadmotd:
     description: Reload the plugin (and MOTDs)
     permission: motd.reload
