@@ -12,19 +12,34 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 
+/**
+ * Plugin main class
+ */
 public class PluginMotd extends JavaPlugin implements Listener {
+
+    /**
+     * The directory from which to load MOTDs
+     */
     private File motdDir;
-    private MotdList motds;
+
+    /**
+     * Data structure containing MOTDs
+     */
+    private MOTDList motds;
 
     @Override
     public void onEnable() {
+        // Set default plugin data directory to be MOTD directory
         motdDir = getDataFolder();
+
+        // create it if missing
         if (!(motdDir.exists() || motdDir.mkdirs())) {
             getLogger().warning("Unable to create MOTD directory!");
         }
 
-        motds = new MotdList(this);
-        motds.load(motdDir);
+        // load MOTDs
+        motds = new MOTDList();
+        motds.load(motdDir, getLogger());
 
         getServer().getPluginManager().registerEvents(this, this);
     }
@@ -38,37 +53,34 @@ public class PluginMotd extends JavaPlugin implements Listener {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        String cmd = command.getName().toLowerCase();
-        switch (cmd) {
+        switch (command.getName().toLowerCase()) {
             case "motd":
-                onCmdMotd(sender);
-                break;
+                return onCmdMotd(sender);
             case "reloadmotd":
-                onCmdReload(sender);
-                break;
+                return onCmdReload(sender);
             default:
                 sender.sendMessage(ChatColor.RED + "Unknown command!");
-                break;
+                return true;
         }
-        return true;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent e) {
-        //todo threads?
-        motds.sendMotdsFor(e.getPlayer());
+        sendMotdsTo(e.getPlayer());
     }
 
-    private void onCmdMotd(CommandSender sender) {
+    private boolean onCmdMotd(CommandSender sender) {
         if (sender.hasPermission("motd.command")) {
             sender.sendMessage(ChatColor.AQUA + "MOTDs for " + sender.getName() + ": ");
-            motds.sendMotdsFor(sender);
+            sendMotdsTo(sender);
         } else {
             sender.sendMessage(ChatColor.RED + "You do not have permission!");
         }
+
+        return true;
     }
 
-    private void onCmdReload(CommandSender sender) {
+    private boolean onCmdReload(CommandSender sender) {
         if (sender.hasPermission("motd.reload")) {
             onDisable();
             onEnable();
@@ -77,5 +89,14 @@ public class PluginMotd extends JavaPlugin implements Listener {
         } else {
             sender.sendMessage(ChatColor.RED + "You do not have permission!");
         }
+
+        return true;
+    }
+
+    /**
+     * Send a user all of their MOTDs
+     */
+    private void sendMotdsTo(CommandSender sender) {
+        motds.getMOTDsFor(sender).forEach(m -> sender.sendMessage(m.getMessage()));
     }
 }
