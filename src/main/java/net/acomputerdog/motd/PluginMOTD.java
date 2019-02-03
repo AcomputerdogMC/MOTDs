@@ -66,13 +66,13 @@ public class PluginMOTD extends JavaPlugin implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent e) {
-        sendMotdsTo(e.getPlayer());
+        sendMOTDsTo(e.getPlayer());
     }
 
     private boolean onCmdMotd(CommandSender sender) {
         if (sender.hasPermission("motd.command")) {
             sender.sendMessage(ChatColor.AQUA + "MOTDs for " + sender.getName() + ": ");
-            sendMotdsTo(sender);
+            sendMOTDsTo(sender);
         } else {
             sender.sendMessage(ChatColor.RED + "You do not have permission!");
         }
@@ -96,7 +96,7 @@ public class PluginMOTD extends JavaPlugin implements Listener {
     /**
      * Send a user all of their MOTDs
      */
-    private void sendMotdsTo(CommandSender sender) {
+    private void sendMOTDsTo(CommandSender sender) {
         motds.getMOTDsFor(sender).forEach(m -> sender.sendMessage(m.getMessage()));
     }
 }

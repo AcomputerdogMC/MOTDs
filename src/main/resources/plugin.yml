@@ -1,4 +1,4 @@
-name: Motd
+name: ${name}
 version: ${version}
 description: Displays messages on player login
 author: acomputerdog

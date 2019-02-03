@@ -5,8 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.acomputerdog.mc</groupId>
-    <artifactId>Motd</artifactId>
+    <artifactId>MOTDs</artifactId>
     <version>3.1.1-SNAPSHOT</version>
+    <name>MOTDs</name>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
