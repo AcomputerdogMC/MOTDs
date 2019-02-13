@@ -4,6 +4,7 @@ description: Displays messages on player login
 author: acomputerdog
 website: https://github.com/AcomputerdogMC/Motds
 main: net.acomputerdog.motd.PluginMOTD
+api-version: 1.13
 
 commands:
   motd:
